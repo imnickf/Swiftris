@@ -5,7 +5,6 @@
 //  Created by Nick Flege on 10/12/16.
 //  Copyright © 2016 Nick Flege. All rights reserved.
 //
-import Foundation
 
 class Array2D<T>
 {

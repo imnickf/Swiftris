@@ -26,6 +26,7 @@
 		01DE3FEF1DAF8FB4002322D7 /* JShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DE3FEE1DAF8FB4002322D7 /* JShape.swift */; };
 		01DE3FF21DAF9010002322D7 /* SShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DE3FF11DAF9010002322D7 /* SShape.swift */; };
 		01DE3FF41DAF9041002322D7 /* ZShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DE3FF31DAF9041002322D7 /* ZShape.swift */; };
+		01DE3FF61DAF94EC002322D7 /* Swiftris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DE3FF51DAF94EC002322D7 /* Swiftris.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		01DE3FEE1DAF8FB4002322D7 /* JShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JShape.swift; sourceTree = "<group>"; };
 		01DE3FF11DAF9010002322D7 /* SShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SShape.swift; sourceTree = "<group>"; };
 		01DE3FF31DAF9041002322D7 /* ZShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZShape.swift; sourceTree = "<group>"; };
+		01DE3FF51DAF94EC002322D7 /* Swiftris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swiftris.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				01DE3FDF1DAE8423002322D7 /* Array2D.swift */,
 				01DE3FE11DAEA225002322D7 /* Block.swift */,
 				01DE3FE31DAEA641002322D7 /* Shape.swift */,
+				01DE3FF51DAF94EC002322D7 /* Swiftris.swift */,
 				01DE3FF01DAF8FEE002322D7 /* Shape Subclasses */,
 			);
 			name = Model;
@@ -201,6 +204,7 @@
 				01DE3FE71DAF8A7C002322D7 /* SquareShape.swift in Sources */,
 				01DE3FCA1DADD967002322D7 /* GameScene.swift in Sources */,
 				01DE3FEF1DAF8FB4002322D7 /* JShape.swift in Sources */,
+				01DE3FF61DAF94EC002322D7 /* Swiftris.swift in Sources */,
 				01DE3FE41DAEA641002322D7 /* Shape.swift in Sources */,
 				01DE3FE01DAE8423002322D7 /* Array2D.swift in Sources */,
 				01DE3FEB1DAF8E4B002322D7 /* LineShape.swift in Sources */,
