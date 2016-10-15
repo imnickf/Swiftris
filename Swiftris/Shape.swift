@@ -151,9 +151,38 @@ class Shape: Hashable, CustomStringConvertible
     }
   }
   
+  final func rotateClockwise()
+  {
+    let newOrientation = Orientation.rotate(orientation: orientation, clockwise: true)
+    rotateBlocksTo(orientation: newOrientation)
+    orientation = newOrientation
+  }
+  
+  final func rotateCounterClockwise()
+  {
+    let newOrientation = Orientation.rotate(orientation: orientation, clockwise: false)
+    rotateBlocksTo(orientation: newOrientation)
+    orientation = newOrientation
+  }
+  
   final func lowerByOneRow()
   {
     shiftBy(columns: 0, rows: 1)
+  }
+  
+  final func raiseShapeByOneRow()
+  {
+    shiftBy(columns: 0, rows: -1)
+  }
+  
+  final func shiftRightByOneColumn()
+  {
+    shiftBy(columns: 1, rows: 0)
+  }
+  
+  final func shiftLeftByOneColumn()
+  {
+    shiftBy(columns: -1, rows: 0)
   }
   
   final func shiftBy(columns: Int, rows: Int)
