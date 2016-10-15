@@ -88,8 +88,105 @@ class Swiftris
     return false
   }
   
+  func dropShape()
+  {
+    guard let shape = fallingShape else {
+      return
+    }
+    while !detectIllegalPlacement() {
+      shape.lowerByOneRow()
+    }
+    shape.raiseByOneRow()
+    delegate?.gameShapeDidDrop(swiftris: self)
+  }
+  
+  func letShapeFall()
+  {
+    guard let shape = fallingShape else {
+      return
+    }
+    shape.lowerByOneRow()
+    if detectIllegalPlacement() {
+      shape.raiseByOneRow()
+      if detectIllegalPlacement() {
+        endGame()
+      } else {
+        settleShape()
+      }
+    } else {
+      delegate?.gameShapeDidMove(swiftris: self)
+      if detectTouch() {
+        settleShape()
+      }
+    }
+  }
+  
+  func rotateShape()
+  {
+    guard let shape = fallingShape else {
+      return
+    }
+    shape.rotateClockwise()
+    guard !detectIllegalPlacement() else {
+      shape.rotateCounterClockwise()
+      return
+    }
+    delegate?.gameShapeDidMove(swiftris: self)
+  }
+  
+  func moveShapeLeft()
+  {
+    guard let shape = fallingShape else {
+      return
+    }
+    shape.shiftLeftByOneColumn()
+    guard !detectIllegalPlacement() else {
+      shape.shiftRightByOneColumn()
+      return
+    }
+    delegate?.gameShapeDidMove(swiftris: self)
+  }
+
+  func moveShapeRight()
+  {
+    guard let shape = fallingShape else {
+      return
+    }
+    shape.shiftRightByOneColumn()
+    guard !detectIllegalPlacement() else {
+      shape.shiftLeftByOneColumn()
+      return
+    }
+    delegate?.gameShapeDidMove(swiftris: self)
+  }
+  
+  func settleShape()
+  {
+    guard let shape = fallingShape else {
+      return
+    }
+    for block in shape.blocks {
+      blockArray[block.column, block.row] = block
+    }
+    fallingShape = nil
+    delegate?.gameShapeDidLand(swiftris: self)
+  }
+  
+  func detectTouch() -> Bool
+  {
+    guard let shape = fallingShape else {
+      return false
+    }
+    for bottomBlock in shape.bottomBlocks {
+      if bottomBlock.row == NumRows - 1 || blockArray[bottomBlock.column, bottomBlock.row + 1] != nil {
+        return true
+      }
+    }
+    return false
+  }
+  
   func endGame()
   {
-    
+    delegate?.gameDidEnd(swiftris: self)
   }
 }
