@@ -24,11 +24,11 @@ class Array2D<T>
   subscript(column: Int, row: Int) -> T?
   {
     get {
-      return array[(rows * columns) + column]
+      return array[(row * columns) + column]
     }
     
     set(newValue) {
-      array[(rows * columns) + column] = newValue
+      array[(row * columns) + column] = newValue
     }
   }
 }

@@ -27,18 +27,10 @@ class GameViewController: UIViewController
     scene.tick = didTick
     
     swiftris = Swiftris()
+    swiftris.delegate = self
     swiftris.beginGame()
   
     skView.presentScene(scene)
-    
-    scene.addPreviewShapeToScene(shape: swiftris.nextShape!) { 
-      self.swiftris.nextShape?.moveTo(column: StartingColumn, row: StartingRow)
-      self.scene.movePreviewShape(shape: self.swiftris.nextShape!) {
-        let nextShapes = self.swiftris.newShape()
-        self.scene.startTicking()
-        self.scene.addPreviewShapeToScene(shape: nextShapes.nextShape!) {}
-      }
-    }
   }
 
   override var prefersStatusBarHidden: Bool
@@ -48,7 +40,60 @@ class GameViewController: UIViewController
   
   func didTick()
   {
-    swiftris.fallingShape?.lowerByOneRow()
-    scene.redrawShape(shape: swiftris.fallingShape!, completion: {})
+    swiftris.letShapeFall()
+  }
+  
+  func nextShape()
+  {
+    let newShape = swiftris.newShape()
+    guard let fallingShape = newShape.fallingShape else {
+      return
+    }
+    scene.addPreviewShapeToScene(shape: newShape.nextShape!) {}
+    scene.movePreviewShape(shape: fallingShape) { 
+      self.view.isUserInteractionEnabled = true
+      self.scene.startTicking()
+    }
+  }
+}
+
+extension GameViewController: SwiftrisDelegate
+{
+  func gameDidBegin(swiftris: Swiftris)
+  {
+    if swiftris.nextShape != nil && swiftris.nextShape!.blocks[0].sprite == nil {
+      scene.addPreviewShapeToScene(shape: swiftris.nextShape!) {
+        self.nextShape()
+      }
+    } else {
+      nextShape()
+    }
+  }
+  
+  func gameDidEnd(swiftris: Swiftris)
+  {
+    view.isUserInteractionEnabled = false
+    scene.stopTicking()
+  }
+  
+  func gameDidLevelUp(swiftris: Swiftris)
+  {
+    
+  }
+  
+  func gameShapeDidDrop(swiftris: Swiftris)
+  {
+    
+  }
+  
+  func gameShapeDidLand(swiftris: Swiftris)
+  {
+    scene.stopTicking()
+    nextShape()
+  }
+  
+  func gameShapeDidMove(swiftris: Swiftris)
+  {
+    scene.redrawShape(shape: swiftris.fallingShape!) {}
   }
 }
