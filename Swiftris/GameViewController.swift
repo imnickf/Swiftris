@@ -15,6 +15,9 @@ class GameViewController: UIViewController
   var scene: GameScene!
   var swiftris: Swiftris!
   
+  @IBOutlet weak var scoreLabel: UILabel!
+  @IBOutlet weak var levelLabel: UILabel!
+  
   var panPointReference: CGPoint?
   
   override func viewDidLoad()
@@ -95,6 +98,10 @@ extension GameViewController: SwiftrisDelegate
 {
   func gameDidBegin(swiftris: Swiftris)
   {
+    levelLabel.text = String(swiftris.level)
+    scoreLabel.text = String(swiftris.score)
+    scene.tickLengthMillis = TickLengthLevelOne
+    
     if swiftris.nextShape != nil && swiftris.nextShape!.blocks[0].sprite == nil {
       scene.addPreviewShapeToScene(shape: swiftris.nextShape!) {
         self.nextShape()
@@ -108,11 +115,22 @@ extension GameViewController: SwiftrisDelegate
   {
     view.isUserInteractionEnabled = false
     scene.stopTicking()
+    
+    scene.play(sound: "Sounds/gameover.mp3")
+    scene.animateCollapsing(linesToRemove: swiftris.removeAllBlocks(), fallenBlocks: swiftris.removeAllBlocks()) {
+      swiftris.beginGame()
+    }
   }
   
   func gameDidLevelUp(swiftris: Swiftris)
   {
-    
+    levelLabel.text = String(swiftris.level)
+    if scene.tickLengthMillis >= 100 {
+      scene.tickLengthMillis -= 100
+    } else if scene.tickLengthMillis > 50 {
+      scene.tickLengthMillis -= 50
+    }
+    scene.play(sound: "Sounds/levelup.mp3")
   }
   
   func gameShapeDidDrop(swiftris: Swiftris)
@@ -121,12 +139,24 @@ extension GameViewController: SwiftrisDelegate
     scene.redrawShape(shape: swiftris.fallingShape!) { 
       swiftris.letShapeFall()
     }
+    scene.play(sound: "Sounds/drop.mp3")
   }
   
   func gameShapeDidLand(swiftris: Swiftris)
   {
     scene.stopTicking()
-    nextShape()
+    self.view.isUserInteractionEnabled = false
+    
+    let removedLines = swiftris.removeCompletedLines()
+    if removedLines.linesRemoved.count > 0 {
+      self.scoreLabel.text = "\(swiftris.score)"
+      scene.animateCollapsing(linesToRemove: removedLines.linesRemoved, fallenBlocks:removedLines.fallenBlocks) {
+        self.gameShapeDidLand(swiftris: swiftris)
+      }
+      scene.play(sound: "Sounds/bomb.mp3")
+    } else {
+      nextShape()
+    }
   }
   
   func gameShapeDidMove(swiftris: Swiftris)
